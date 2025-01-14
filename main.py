@@ -2,7 +2,7 @@
 """Yappily: A Twitter client that posts the same message to Twitter variants."""
 
 def main():
-    pass
+    print("Done")
 
 if __name__ == "__main__":
     main()
