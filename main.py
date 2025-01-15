@@ -20,9 +20,18 @@ We use tweepy (Python, or the Rust equivalent in the future) because it's necess
 
 [source](https://docs.x.com/resources/fundamentals/authentication/oauth-2-0/application-only#app-only-authentication-and-oauth-2-0-bearer-token)
 """
+from tweepy import API, OAuth2BearerHandler
 
 
 def main():
+    with open('bearer_token.txt', 'r') as infile:
+        bearer_token = infile.read()
+
+    auth = OAuth2BearerHandler(bearer_token)
+    api = API(auth)
+
+    api.update_status("Hello, world!")
+    
     print("Done")
 
 if __name__ == "__main__":
