@@ -1,7 +1,7 @@
-access_token.txt
-access_token_secret.txt
-client_id.txt
-client_secret.txt
-bearer_token.txt
-api_key.txt
-api_key_secret.txt
+twitter_creds/access_token.txt
+twitter_creds/access_token_secret.txt
+twitter_creds/client_id.txt
+twitter_creds/client_secret.txt
+twitter_creds/bearer_token.txt
+twitter_creds/api_key.txt
+twitter_creds/api_key_secret.txt
