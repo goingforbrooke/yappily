@@ -2,3 +2,4 @@ access_token.txt
 access_token_secret.txt
 client_id.txt
 client_secret.txt
+bearer_token.txt
