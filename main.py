@@ -24,12 +24,14 @@ API key and secret are also knowns as consumer key and consumer secret. source: 
 """
 from tweepy import Client
 
+from hachyderm import post_to_hachyderm
 from twitter import send_tweet
 
 
 def main():
     tweet_text = "Hello, world!"
-    send_tweet(tweet_text)
+
+    #send_tweet(tweet_text)
 
     print("Done")
 
