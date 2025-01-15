@@ -3,3 +3,5 @@ access_token_secret.txt
 client_id.txt
 client_secret.txt
 bearer_token.txt
+api_key.txt
+api_key_secret.txt
