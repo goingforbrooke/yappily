@@ -19,5 +19,12 @@ Done
 
 - Rewrite in Rust
 - make mobile app
-- allow image uploads
+- add image uploads
     - resizing would be nice
+- global scheduling
+- YouTube communities
+- Threads
+- stats
+    - 30 day averages in terminal
+    - matplotlib graphs in webpage 
+- ? Update "Games" and "About" panels in Twitch?
