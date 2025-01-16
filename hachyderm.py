@@ -20,12 +20,23 @@ Permissions:
 """
 from pathlib import Path
 
+from mastodon import Mastodon
+
 
 """Post on Hachyderm."""
 def post_to_hachyderm(post_text: str):
     client_id = get_client_id()
     client_secret = get_client_secret()
     access_token = get_access_token()
+
+    # Authenticate with the Mastodon API.
+    mastodon_client = Mastodon(api_base_url='https://hachyderm.io',
+                               client_id=client_id,
+                               client_secret=client_secret,
+                               access_token=access_token)
+
+    # Post the text to Hachyderm.
+    mastodon_client.toot(post_text)
 
     print(f'Posted to Hachyderm: {post_text}')
     return True
