@@ -22,13 +22,16 @@ We use tweepy (Python, or the Rust equivalent in the future) because it's necess
  
 API key and secret are also knowns as consumer key and consumer secret. source: https://docs.x.com/resources/fundamentals/authentication/oauth-1-0a/api-key-and-secret#api-key-and-secret
 """
+from hachyderm import post_to_hachyderm
 from twitter import send_tweet
 
 
 def main():
     tweet_text = "Hello, world!"
 
-    #send_tweet(tweet_text)
+    # send_tweet(tweet_text)
+
+    post_to_hachyderm(tweet_text)
 
     print("Done")
 

@@ -7,6 +7,6 @@ twitter_creds/api_key.txt
 twitter_creds/api_key_secret.txt
 
 hachyderm_creds/access_token.txt
-hachyderm_creds/client_key.txt
+hachyderm_creds/client_id.txt
 hachyderm_creds/client_secret.txt
 
