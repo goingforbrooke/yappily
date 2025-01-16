@@ -4,6 +4,7 @@
 
 You *can* use your personal password to login, but we recommend creatng an app password to use instead.
 
+Settings -> Privacy and Security -> App Passwords
 """
 from pathlib import Path
 
@@ -18,7 +19,8 @@ def post_to_bluesky(post_text):
     bluesky_client = Client()
 
     # Login to Bluesky.
-    bluesky_client.login(bluesky_username, bluesky_password)
+    # todo: Strip username and password characters in file load functions.
+    bluesky_client.login(bluesky_username.strip(), bluesky_password.strip())
 
     bluesky_client.send_post(text=post_text)
 
