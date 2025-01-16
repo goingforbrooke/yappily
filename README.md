@@ -19,3 +19,5 @@ Done
 
 - Rewrite in Rust
 - make mobile app
+- allow image uploads
+    - resizing would be nice
