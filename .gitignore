@@ -10,3 +10,5 @@ hachyderm_creds/access_token.txt
 hachyderm_creds/client_id.txt
 hachyderm_creds/client_secret.txt
 
+bluesky_creds/bluesky_password.txt
+bluesky_creds/bluesky_username.txt

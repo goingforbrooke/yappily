@@ -23,7 +23,7 @@ from pathlib import Path
 from mastodon import Mastodon
 
 
-"""Post on Hachyderm."""
+"""Post on [Hachyderm](https://hachyderm.io)."""
 def post_to_hachyderm(post_text: str):
     client_id = get_client_id()
     client_secret = get_client_secret()
