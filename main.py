@@ -1,4 +1,13 @@
-#!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "atproto",
+#     "mastodon-py",
+#     "requests",
+#     "standard-imghdr",
+#     "tweepy",
+# ]
+# ///
 """Yappily: An X/Twitter client that posts the same message to Twitter variants.
 
 We use tweepy (Python, or the Rust equivalent in the future) because it's necessary for tweeting:
