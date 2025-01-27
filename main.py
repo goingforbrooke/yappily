@@ -39,7 +39,7 @@ from twitter import send_tweet
 
 def main():
     tweet_text = get_post_text()
-    print(f'🚀 Posting "{tweet_text}"')
+    print(f'👅 Yapping "{tweet_text}"')
 
     # Tweet on X/Twitter.
     send_tweet(tweet_text)
