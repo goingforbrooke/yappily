@@ -12,9 +12,9 @@ from atproto import Client
 
 
 """Post on [Bluesky](https://bsky.app)."""
-def post_to_bluesky(post_text):
-    bluesky_username = get_bluesky_username()
-    bluesky_password = get_bluesky_password()
+def post_to_bluesky(post_text, root_directory):
+    bluesky_username = get_bluesky_username(root_directory)
+    bluesky_password = get_bluesky_password(root_directory)
 
     bluesky_client = Client()
 
@@ -24,7 +24,7 @@ def post_to_bluesky(post_text):
 
     bluesky_client.send_post(text=post_text)
 
-    print(f'Posted to Bluesky: {post_text}')
+    print(f'🌤️ Posted to Bluesky: {post_text}')
     return True
 
 
@@ -33,16 +33,12 @@ def post_to_bluesky(post_text):
 This should be in the format `your.username.bsky.social`.
 
 """
-def get_bluesky_username():
-    file_path = Path('bluesky_creds/bluesky_username.txt')
-    with open(file_path, 'r') as infile:
-        username = infile.read()
-    return username
+def get_bluesky_username(root_directory):
+    file_path = Path(root_directory, 'bluesky_creds', 'bluesky_username.txt')
+    return file_path.read_text()
 
 
 """Get the Bluesky user password or app password."""
-def get_bluesky_password():
-    file_path = Path('bluesky_creds/bluesky_password.txt')
-    with open(file_path, 'r') as infile:
-        password = infile.read()
-    return password
+def get_bluesky_password(root_directory):
+    file_path = Path(root_directory, 'bluesky_creds', 'bluesky_password.txt')
+    return file_path.read_text()
