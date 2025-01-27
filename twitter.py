@@ -19,7 +19,7 @@ def send_tweet(tweet_text: str):
     # Tweet the user's provided text.
     api_client.create_tweet(text=tweet_text)
 
-    print(f'Tweeted on X/Twitter: {tweet_text}')
+    print(f'🦜 Tweeted on X/Twitter: {tweet_text}')
     return True
 
 
