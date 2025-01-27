@@ -190,7 +190,8 @@ Dependencies are tracked in three locations:
 3. `requirements.txt`
   - for compatibility
 
-Be sure to update `requirements.txt` with the latest from `uv`:
+> [!IMPORTANT]
+> Update `requirements.txt` with the latest from `uv`:
 
 ```console
 uv export --format requirements-txt > requirements.txt
