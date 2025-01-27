@@ -35,14 +35,10 @@ This should be in the format `your.username.bsky.social`.
 """
 def get_bluesky_username(root_directory):
     file_path = Path(root_directory, 'bluesky_creds', 'bluesky_username.txt')
-    with open(file_path, 'r') as infile:
-        username = infile.read()
-    return username
+    return file_path.read_text()
 
 
 """Get the Bluesky user password or app password."""
 def get_bluesky_password(root_directory):
     file_path = Path(root_directory, 'bluesky_creds', 'bluesky_password.txt')
-    with open(file_path, 'r') as infile:
-        password = infile.read()
-    return password
+    return file_path.read_text()

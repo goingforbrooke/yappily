@@ -45,22 +45,16 @@ def post_to_hachyderm(post_text: str, root_directory: Path):
 """Get the client ID, which is known as "Client Key" on the Development -> Application."""
 def get_client_id(root_directory):
     file_path = Path(root_directory, 'hachyderm_creds', 'client_id.txt')
-    with open(file_path, 'r') as infile:
-        client_id = infile.read()
-    return client_id
+    return file_path.read_text()
 
 
 """Get the client secret, which is known as "Client Secret" on the Development -> Application."""
 def get_client_secret(root_directory):
     file_path = Path(root_directory, 'hachyderm_creds', 'client_secret.txt')
-    with open(file_path, 'r') as infile:
-        client_secret = infile.read()
-    return client_secret
+    return file_path.read_text()
 
 
 """Get the access token, which is known as "Your access token" on the Development -> Application."""
 def get_access_token(root_directory):
     file_path = Path(root_directory, 'hachyderm_creds', 'access_token.txt')
-    with open(file_path, 'r') as infile:
-        access_token = infile.read()
-    return access_token
+    return file_path.read_text()

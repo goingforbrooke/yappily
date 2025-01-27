@@ -26,30 +26,22 @@ def send_tweet(tweet_text: str, root_directory: Path):
 """Consumer key is known as "API Key" in "Projects and Apps.\""""
 def get_consumer_key(root_directory):
     file_path = Path(root_directory, 'twitter_creds', 'api_key.txt')
-    with open(file_path, 'r') as infile:
-        consumer_key = infile.read()
-    return consumer_key
+    return file_path.read_text()
 
 
 """Consumer secret is known as "API Key" in "Projects and Apps."""
 def get_consumer_secret(root_directory: Path):
     file_path = Path(root_directory, 'twitter_creds', 'api_key_secret.txt')
-    with open(file_path, 'r') as infile:
-        consumer_secret = infile.read()
-    return consumer_secret
+    return file_path.read_text()
 
 
 """Get the access token from a file."""
 def get_access_token(root_directory: Path):
     file_path = Path(root_directory, 'twitter_creds', 'access_token.txt')
-    with open(file_path, 'r') as infile:
-        access_token = infile.read()
-    return access_token
+    return file_path.read_text()
 
 
 """Get the access token secret from a file."""
 def get_access_token_secret(root_directory: Path):
     file_path = Path(root_directory, 'twitter_creds', 'access_token_secret.txt')
-    with open(file_path, 'r') as infile:
-        access_token_secret = infile.read()
-    return access_token_secret
+    return file_path.read_text()
