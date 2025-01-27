@@ -39,7 +39,7 @@ from twitter import send_tweet
 
 def main():
     tweet_text = get_post_text()
-    print(f'Posting "{tweet_text}"')
+    print(f'🚀 Posting "{tweet_text}"')
 
     # Tweet on X/Twitter.
     send_tweet(tweet_text)
@@ -50,7 +50,7 @@ def main():
     # Post on Bluesky.
     post_to_bluesky(tweet_text)
 
-    print("Done")
+    print("✅  Done")
 
 
 if __name__ == "__main__":

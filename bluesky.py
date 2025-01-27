@@ -24,7 +24,7 @@ def post_to_bluesky(post_text):
 
     bluesky_client.send_post(text=post_text)
 
-    print(f'Posted to Bluesky: {post_text}')
+    print(f'🌤️ Posted to Bluesky: {post_text}')
     return True
 
 

@@ -38,7 +38,7 @@ def post_to_hachyderm(post_text: str):
     # Post the text to Hachyderm.
     mastodon_client.toot(post_text)
 
-    print(f'Posted to Hachyderm: {post_text}')
+    print(f'🐘 Posted to Hachyderm: {post_text}')
     return True
 
 
