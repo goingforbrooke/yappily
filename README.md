@@ -80,20 +80,20 @@ Each site needs a different set of credentials:
     - password
       - create `yappily/bluesky_creds/bluesky_password.txt`
 
-[!CAUTION]
-Twitter/X's free tier has very low limits. As of 25-1-26, you get 100 posts each month, which may be insufficient for profific posters.
+> [!CAUTION]
+> Twitter/X's free tier has very low limits. As of 25-1-26, you get 100 posts each month, which may be insufficient for profific posters.
 
 3. Install Dependencies
 
-[!TIP]
-[Avoid manually installing dependencies](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) and skip to [`uv run`](#run-as-uv-script).
+> [!TIP]
+> [Avoid manually installing dependencies](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) and skip to [`uv run`](#run-as-uv-script).
 
-[!TIP]
-[Zsh](https://www.zsh.org.) users can run Yappily from anywhere by adding this file as `yapply` to `~/bin`:
-```zsh
-#!/bin/zsh
-uv run ~/path/to/where/you/clone/repos/yappily/main.py "$@"
-```
+> [!TIP]
+> [Zsh](https://www.zsh.org.) users can run Yappily from anywhere by adding this file as `yapply` to `~/bin`:
+> ```zsh
+> #!/bin/zsh
+> uv run ~/path/to/where/you/clone/repos/yappily/main.py "$@"
+> ```
 
 ### Install with [`uv`](https://docs.astral.sh/uv/)
 
@@ -137,8 +137,8 @@ uv run main.py "using QR codes to sign into Slack workspaces on mobile brings me
 
 This works the same as the [`uv run`](#run-as-uv-script), but replace `uv run` with `python`.
 
-[!IMPORTANT]
-Install dependencies and/or activate a virtual environment first.
+> [!IMPORTANT]
+> Install dependencies and/or activate a virtual environment first.
 
 ```console
 python main.py
