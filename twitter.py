@@ -6,11 +6,6 @@ from tweepy import Client
 
 """Send a tweet from Twitter/X."""
 def send_tweet(tweet_text: str):
-    consumer_key = get_consumer_key()
-    consumer_secret = get_consumer_secret()
-    access_token = get_access_token()
-    access_token_secret = get_access_token_secret()
-
     api_client = Client(consumer_key=get_consumer_key(),
                         consumer_secret=get_consumer_secret(),
                         access_token=get_access_token(),
