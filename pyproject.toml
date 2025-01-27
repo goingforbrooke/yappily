@@ -1,7 +1,7 @@
 [project]
 name = "yappily"
 version = "0.1.0"
-description = "Add your description here"
+description = "Post the same message to Twitter 🦜, Hachyderm 🐘, and 🌤️Bluesky."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
