@@ -48,7 +48,7 @@ def main():
     print(f'👅 Yapping "{tweet_text}"')
 
     # Tweet on X/Twitter.
-    send_tweet(tweet_text)
+    send_tweet(tweet_text, root_directory)
 
     # Toot on Hachyderm.
     post_to_hachyderm(tweet_text)
