@@ -1,6 +1,6 @@
 # 👅 Yappily 😁
 
-Post the same message to Twitter 🦜, Hachyderm 🐘, and 🌤️Bluesky.
+Post the same message to Twitter 🦜, Hachyderm 🐘, and Bluesky🌤️.
 
 ## Installation
 
