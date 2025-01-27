@@ -51,7 +51,7 @@ def main():
     send_tweet(tweet_text, root_directory)
 
     # Toot on Hachyderm.
-    post_to_hachyderm(tweet_text)
+    post_to_hachyderm(tweet_text, root_directory)
 
     # Post on Bluesky.
     post_to_bluesky(tweet_text)
