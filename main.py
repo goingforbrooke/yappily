@@ -31,8 +31,8 @@ We use tweepy (Python, or the Rust equivalent in the future) because it's necess
  
 API key and secret are also knowns as consumer key and consumer secret. source: https://docs.x.com/resources/fundamentals/authentication/oauth-1-0a/api-key-and-secret#api-key-and-secret
 """
-from cli_utils import get_post_text
 from bluesky import post_to_bluesky
+from cli_utils import get_post_text
 from hachyderm import post_to_hachyderm
 from twitter import send_tweet
 
