@@ -24,10 +24,10 @@ from mastodon import Mastodon
 
 
 """Post on [Hachyderm](https://hachyderm.io)."""
-def post_to_hachyderm(post_text: str):
-    client_id = get_client_id()
-    client_secret = get_client_secret()
-    access_token = get_access_token()
+def post_to_hachyderm(post_text: str, root_directory: Path):
+    client_id = get_client_id(root_directory)
+    client_secret = get_client_secret(root_directory)
+    access_token = get_access_token(root_directory)
 
     # Authenticate with the Mastodon API.
     mastodon_client = Mastodon(api_base_url='https://hachyderm.io',
@@ -43,24 +43,18 @@ def post_to_hachyderm(post_text: str):
 
 
 """Get the client ID, which is known as "Client Key" on the Development -> Application."""
-def get_client_id():
-    file_path = Path('hachyderm_creds/client_id.txt')
-    with open(file_path, 'r') as infile:
-        client_id = infile.read()
-    return client_id
+def get_client_id(root_directory):
+    file_path = Path(root_directory, 'hachyderm_creds', 'client_id.txt')
+    return file_path.read_text()
 
 
 """Get the client secret, which is known as "Client Secret" on the Development -> Application."""
-def get_client_secret():
-    file_path = Path('hachyderm_creds/client_secret.txt')
-    with open(file_path, 'r') as infile:
-        client_secret = infile.read()
-    return client_secret
+def get_client_secret(root_directory):
+    file_path = Path(root_directory, 'hachyderm_creds', 'client_secret.txt')
+    return file_path.read_text()
 
 
 """Get the access token, which is known as "Your access token" on the Development -> Application."""
-def get_access_token():
-    file_path = Path('hachyderm_creds/access_token.txt')
-    with open(file_path, 'r') as infile:
-        access_token = infile.read()
-    return access_token
+def get_access_token(root_directory):
+    file_path = Path(root_directory, 'hachyderm_creds', 'access_token.txt')
+    return file_path.read_text()

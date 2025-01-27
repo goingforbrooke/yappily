@@ -31,24 +31,30 @@ We use tweepy (Python, or the Rust equivalent in the future) because it's necess
  
 API key and secret are also knowns as consumer key and consumer secret. source: https://docs.x.com/resources/fundamentals/authentication/oauth-1-0a/api-key-and-secret#api-key-and-secret
 """
-from cli_utils import get_post_text
+from pathlib import Path
+
 from bluesky import post_to_bluesky
+from cli_utils import get_post_text
 from hachyderm import post_to_hachyderm
 from twitter import send_tweet
 
 
 def main():
+    # Get the directory for this project so we can build relative paths to credential files.
+    root_directory = Path(__file__).parent
+
+    # Get the text that the user wants to yap about.
     tweet_text = get_post_text()
-    print(f'🚀 Posting "{tweet_text}"')
+    print(f'👅 Yapping "{tweet_text}"')
 
     # Tweet on X/Twitter.
-    send_tweet(tweet_text)
+    send_tweet(tweet_text, root_directory)
 
     # Toot on Hachyderm.
-    post_to_hachyderm(tweet_text)
+    post_to_hachyderm(tweet_text, root_directory)
 
     # Post on Bluesky.
-    post_to_bluesky(tweet_text)
+    post_to_bluesky(tweet_text, root_directory)
 
     print("✅  Done")
 
