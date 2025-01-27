@@ -54,7 +54,7 @@ def main():
     post_to_hachyderm(tweet_text, root_directory)
 
     # Post on Bluesky.
-    post_to_bluesky(tweet_text)
+    post_to_bluesky(tweet_text, root_directory)
 
     print("✅  Done")
 
