@@ -158,6 +158,7 @@ python main.py "using QR codes to sign into Slack workspaces on mobile brings me
 
 ## Future
 
+- check for Bluesky's 300 grapheme limit
 - post to Insta Threads 🧵
 - allow posting to fewer than all sites 🔧
   - right now, it fails if you don't provide credentials for each one
