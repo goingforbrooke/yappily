@@ -12,3 +12,7 @@ hachyderm_creds/client_secret.txt
 
 bluesky_creds/bluesky_password.txt
 bluesky_creds/bluesky_username.txt
+
+buffer_creds/
+__pycache__/
+.venv/

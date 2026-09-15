@@ -25,33 +25,25 @@ git clone git@github.com:goingforbrooke/yappily.git
 
 2. Get credentials.
 
-You need to get API keys from Twitter, Hachyderm, and Bluesky.
+X posting uses Buffer; Hachyderm and Bluesky use their own APIs.
+Create credential directories as needed. Keep secrets out of Git and chat.
 
-Paste each one into their corresponding text files at the paths noted below.
-
-The `*_creds` already exist for your convenience.
-
-Each site needs a different set of credentials:
-
-- **Twitter/X**
-  - requires a ["Developer Portal"](https://developer.twitter.com/en/portal) account
-    - (different from your main account)
-    - setup
-      - set up for "User Authentication"
-      - Type of App: "Web App, Automated App, or Bot"
-      - callback uri: up to you, but we won't be using it
-      - website url: your website's URL
-  - required keys
-    - consumer key
-      - sometimes known as "API Key" in "Projects and Apps"
-      - create `yappily/twitter_creds/api_key.txt`
-    - consumer secret
-      - sometimes known as "API Key" in "Projects and Apps."
-      - create `yappily/twitter_creds/api_key_secret.txt`
-    - access token
-      - create `yappily/twitter_creds/access_token.txt`
-    - access token secret
-      - create `yappily/twitter_creds/access_token_secret.txt`
+- **Twitter/X via Buffer**
+  - Connect your X profile to Buffer.
+  - Create a personal key in [Buffer Settings → API](https://publish.buffer.com/settings/api).
+  - Use `account:read` for channel discovery and `posts:write` for publishing.
+    `posts:read` can additionally be enabled for inspecting posts; account-write,
+    ideas, insights, and engagement permissions are not needed.
+  - Run `yappily --setup-buffer` (or `uv run main.py --setup-buffer`).
+    Paste the key at the hidden terminal prompt and select your X channel.
+  - Setup saves `buffer_creds/api_key.txt` and `buffer_creds/channel_id.txt`,
+    with directory mode `0700` and file mode `0600`. Both are Git-ignored.
+  - Alternatively, set `BUFFER_API_KEY` and `BUFFER_X_CHANNEL_ID`; environment
+    settings override credential files.
+  - Verify without publishing: `yappily --check-buffer`.
+  - No direct X API keys or X API credit balance are used. Existing
+    `twitter_creds/` files are left untouched but are no longer read.
+  - Renew the key in Buffer before its selected expiration and rerun setup.
 - **Hachyderm**
   - [hachyderm.io/home](https://hachyderm.io/home)
   - [Development Tab](https://hachyderm.io/settings/applications)
@@ -80,8 +72,15 @@ Each site needs a different set of credentials:
     - password
       - create `yappily/bluesky_creds/bluesky_password.txt`
 
-> [!CAUTION]
-> Twitter/X's free tier has very low limits. As of 25-1-26, you get 100 posts each month, which may be insufficient for profific posters.
+> [!NOTE]
+> X posts are submitted through Buffer using `shareNow`, not added to your regular
+> queue. Buffer acceptance is not proof of publication: Yappily prints the returned
+> post ID and status and explicitly notes when publication is unconfirmed.
+> See [Buffer's API guide](https://developers.buffer.com/guides/rest-migration.html).
+>
+> Historical limit note (original label `25-1-26`, apparently January 26, 2025):
+> this README recorded a direct-X free-tier allowance of 100 posts/month. That is
+> not a current limit and is unrelated to the Buffer integration.
 
 3. Install Dependencies
 
@@ -109,6 +108,23 @@ pip install -r requirements.txt
 
 You can run Yappily with any `requirements.txt`-friendly project manager, but we recommend[`uv`](https://docs.astral.sh/uv/)
 
+### Select platforms and retry safely
+
+```console
+yappily --only x "Post only to X via Buffer"
+yappily --only hachyderm,bluesky "Post to the other two"
+yappily --check-buffer
+```
+
+By default all three platforms are attempted independently. A failure returns exit
+status 1 after the remaining platforms are attempted; the summary lists accepted
+and failed/unconfirmed destinations. There are no automatic retries. If a response
+is lost, check the affected service before retrying to avoid duplicates. Use
+`--only` so a retry does not repeat posts on successful platforms.
+
+Use `--` before literal post text starting with a dash, e.g.
+`yappily -- "--not-an-option"`.
+
 ### Run as `uv` Script
 
 Use `uv run`:
@@ -127,10 +143,11 @@ uv run main.py "using QR codes to sign into Slack workspaces on mobile brings me
 
 ```console
 👅 Yapping "using QR codes to sign into Slack workspaces on mobile brings me such unbridled joy"
-🦜 Tweeted on X/Twitter: using QR codes to sign into Slack workspaces on mobile brings me such unbridled joy
+🦜 Submitted to Buffer for immediate X posting (post <id>, status: scheduled).
+   Publication is not confirmed yet; check Buffer before retrying.
 🐘 Posted to Hachyderm: using QR codes to sign into Slack workspaces on mobile brings me such unbridled joy
 🌤️ Posted to Bluesky: using QR codes to sign into Slack workspaces on mobile brings me such unbridled joy
-✅ Done
+✅ Accepted by: x, hachyderm, bluesky
 ```
 
 ### Run with `python`
@@ -150,18 +167,17 @@ python main.py "using QR codes to sign into Slack workspaces on mobile brings me
 
 ```console
 👅 Yapping "using QR codes to sign into Slack workspaces on mobile brings me such unbridled joy"
-🦜 Tweeted on X/Twitter: using QR codes to sign into Slack workspaces on mobile brings me such unbridled joy
+🦜 Submitted to Buffer for immediate X posting (post <id>, status: scheduled).
+   Publication is not confirmed yet; check Buffer before retrying.
 🐘 Posted to Hachyderm: using QR codes to sign into Slack workspaces on mobile brings me such unbridled joy
 🌤️ Posted to Bluesky: using QR codes to sign into Slack workspaces on mobile brings me such unbridled joy
-✅ Done
+✅ Accepted by: x, hachyderm, bluesky
 ```
 
 ## Future
 
 - check for Bluesky's 300 grapheme limit
 - post to Insta Threads 🧵
-- allow posting to fewer than all sites 🔧
-  - right now, it fails if you don't provide credentials for each one
 - RIIW (Rewrite in Rust) 🦀
 - make mobile app 🤳🏻
 - use oAuth for credentials? 🔐
