@@ -98,6 +98,13 @@ class BufferTests(unittest.TestCase):
 
 
 class MainTests(unittest.TestCase):
+    def setUp(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        environment = patch.dict(os.environ, {'YAPPILY_LOG_DIR': directory.name})
+        environment.start()
+        self.addCleanup(environment.stop)
+
     def test_failure_does_not_stop_others(self):
         with patch.object(main, 'send_tweet', side_effect=b.BufferError('test failure')), patch('hachyderm.post_to_hachyderm') as h, patch('bluesky.post_to_bluesky') as sky, contextlib.redirect_stdout(io.StringIO()) as out:
             self.assertEqual(main.main(['Hello']), 1)

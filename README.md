@@ -125,6 +125,49 @@ is lost, check the affected service before retrying to avoid duplicates. Use
 Use `--` before literal post text starting with a dash, e.g.
 `yappily -- "--not-an-option"`.
 
+### Local diagnostics
+
+Logging is automatic for posting, Buffer setup, and connection checks:
+
+```console
+yappily --logs      # latest five runs, including successes
+yappily --failures  # latest five failed/incomplete runs
+```
+
+Both commands are read-only, offline, and do not create new log entries. On macOS,
+logs live in `~/Library/Logs/Yappily/`; elsewhere they use
+`${XDG_STATE_HOME:-~/.local/state}/yappily/logs/`. `YAPPILY_LOG_DIR` overrides the
+location (use a dedicated directory, outside the repository).
+
+Each invocation writes a private JSONL file named with its UTC start timestamp
+and unique run ID. The newest 50 files are retained, capped at 256 KiB each
+(about 12.5 MiB total). Directory/file permissions are 0700/0600. Events are
+flushed as they happen; overlapping invocations use separate files.
+
+Diagnostics include:
+- Python/SDK versions, Git revision and dirty-worktree flag;
+- selected platforms, post length (not content), timings, exit status;
+- per-platform progress and returned post IDs/statuses;
+- Buffer HTTP status, request ID/retry-after when provided, GraphQL error codes
+  and known categories (billing, authentication, rate limits, etc.);
+- exception types, numeric HTTP status/OS errno when available, and stack
+  filename/function/line locations, without frame locals or source lines.
+
+API keys, credentials, request/response bodies, headers other than the two
+selected Buffer diagnostic headers, raw exception messages, and full post text
+are not recorded. Logs still contain account-linked post IDs, timestamps, and
+local code details: treat them as private. Nothing is uploaded automatically.
+
+A logging-storage error warns on stderr but does not block posting. An interrupted
+run may have no `run_finished` record; check the platform before retrying. These
+are **client-side observations**, not background delivery monitoring: Buffer
+acceptance without `sent` remains unconfirmed. CLI parsing errors, dependency
+installation/import failures before logging starts, and OS-level process kills
+cannot produce a complete run log. Earlier posts are not backfilled.
+
+For future diagnosis, inspect `yappily --failures`, then the matching JSONL file
+for the complete run and returned post ID. Tests: `uv run python -m unittest -q`.
+
 ### Run as `uv` Script
 
 Use `uv run`:

@@ -9,6 +9,7 @@ Settings -> Privacy and Security -> App Passwords
 from pathlib import Path
 
 from atproto import Client
+from diagnostics import event, identifier
 
 
 """Post on [Bluesky](https://bsky.app)."""
@@ -20,9 +21,14 @@ def post_to_bluesky(post_text, root_directory):
 
     # Login to Bluesky.
     # todo: Strip username and password characters in file load functions.
+    event('authentication_started', platform='bluesky')
     bluesky_client.login(bluesky_username.strip(), bluesky_password.strip())
+    event('authentication_completed', platform='bluesky')
 
-    bluesky_client.send_post(text=post_text)
+    event('delivery_started', platform='bluesky')
+    result = bluesky_client.send_post(text=post_text)
+    event('delivery_result', platform='bluesky', post_id=identifier(getattr(result, 'uri', None)),
+          status='sent', confirmed=True)
 
     print(f'🌤️ Posted to Bluesky: {post_text}')
     return True

@@ -10,10 +10,12 @@ def parse_args(argv=None):
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument("--setup-buffer", action="store_true", help="Save a Buffer key and select your X channel; nothing posted")
     modes.add_argument("--check-buffer", action="store_true", help="Verify Buffer access without posting")
+    modes.add_argument("--logs", action="store_true", help="Show the latest five diagnostic runs; no network access")
+    modes.add_argument("--failures", action="store_true", help="Show the latest five failed or incomplete runs; no network access")
     parser.add_argument("--only", metavar="PLATFORMS", help="Comma-separated platforms: x,hachyderm,bluesky")
     parser.add_argument("text", nargs="*", help="Post text (quote it; use -- before text starting with a dash)")
     args = parser.parse_args(argv)
-    if args.setup_buffer or args.check_buffer:
+    if args.setup_buffer or args.check_buffer or args.logs or args.failures:
         if args.only is not None or args.text:
             parser.error("setup/check cannot be combined with post text or --only")
     elif not args.text or not " ".join(args.text).strip():

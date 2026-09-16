@@ -21,6 +21,7 @@ Permissions:
 from pathlib import Path
 
 from mastodon import Mastodon
+from diagnostics import event, identifier
 
 
 """Post on [Hachyderm](https://hachyderm.io)."""
@@ -36,7 +37,11 @@ def post_to_hachyderm(post_text: str, root_directory: Path):
                                access_token=access_token)
 
     # Post the text to Hachyderm.
-    mastodon_client.toot(post_text)
+    event('delivery_started', platform='hachyderm')
+    result = mastodon_client.toot(post_text)
+    event('delivery_result', platform='hachyderm',
+          post_id=identifier(result.get('id')) if isinstance(result, dict) else None,
+          status='sent', confirmed=True)
 
     print(f'🐘 Posted to Hachyderm: {post_text}')
     return True

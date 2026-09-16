@@ -7,6 +7,9 @@ import os
 from pathlib import Path
 
 import requests
+import time
+
+from diagnostics import event, identifier, error_details, classify_error
 
 API_URL = "https://api.buffer.com"
 API_SETTINGS_URL = "https://publish.buffer.com/settings/api"
@@ -43,6 +46,10 @@ class BufferError(RuntimeError):
 
 def request(api_key: str, query: str, variables: dict | None = None) -> dict:
     """Do not retry: a lost mutation response may still have published a post."""
+    operation = {ORGANIZATIONS_QUERY: 'organizations', CHANNELS_QUERY: 'channels',
+                 CHANNEL_QUERY: 'channel', CREATE_POST_MUTATION: 'create_post'}.get(query, 'other')
+    started = time.monotonic()
+    event('buffer_request_started', operation=operation)
     try:
         response = requests.post(
             API_URL,
@@ -51,11 +58,18 @@ def request(api_key: str, query: str, variables: dict | None = None) -> dict:
             timeout=(10, 30),
             allow_redirects=False,
         )
-    except requests.RequestException:
+    except requests.RequestException as error:
+        event('buffer_transport_failed', operation=operation,
+              elapsed_ms=round((time.monotonic() - started) * 1000), **error_details(error))
         raise BufferError(
             "Buffer connection failed. If submitting a post, delivery is unknown; "
             "check Buffer before retrying."
         ) from None
+    headers = getattr(response, 'headers', {})
+    event('buffer_response', operation=operation, http_status=response.status_code,
+          elapsed_ms=round((time.monotonic() - started) * 1000),
+          request_id=identifier(headers.get('x-request-id')),
+          retry_after=identifier(headers.get('retry-after')))
     if not 200 <= response.status_code < 300:
         raise BufferError(
             f"Buffer returned HTTP {response.status_code}. Check API access, "
@@ -68,7 +82,13 @@ def request(api_key: str, query: str, variables: dict | None = None) -> dict:
     if not isinstance(payload, dict):
         raise BufferError("Unexpected Buffer response; check Buffer before retrying.")
     if payload.get("errors"):
-        # Avoid echoing response bodies that could contain credentials or request data.
+        # Keep classifications/codes, not potentially sensitive response prose.
+        errors = payload['errors'] if isinstance(payload['errors'], list) else []
+        event('buffer_graphql_failed', operation=operation,
+              errors=[{'category': classify_error(e.get('message', '')),
+                       'code': identifier(e.get('extensions', {}).get('code'))
+                       if isinstance(e.get('extensions'), dict) else None}
+                      for e in errors[:10] if isinstance(e, dict)])
         raise BufferError(
             "Buffer reported GraphQL errors. Check API access and Buffer's queue "
             "before retrying; delivery may be unknown."
@@ -129,11 +149,15 @@ def send_tweet(tweet_text: str, root_directory: Path) -> bool:
     if not isinstance(result, dict):
         raise BufferError("Missing Buffer post result; check Buffer before retrying.")
     if result.get("__typename") != "PostActionSuccess":
+        event('buffer_post_rejected', error_type=identifier(result.get('__typename')),
+              category=classify_error(result.get('message', '')))
         message = str(result.get("message") or "Post was rejected").replace(api_key, "[redacted]")
         raise BufferError(f"Buffer: {message}")
     post = result.get("post")
     if not isinstance(post, dict) or not post.get("id") or not post.get("status"):
         raise BufferError("Incomplete Buffer post result; check Buffer before retrying.")
+    event('delivery_result', platform='x', post_id=identifier(post['id']),
+          status=identifier(post['status']), confirmed=post['status'] == 'sent')
     if post["status"] == "sent":
         print(f"🦜 Posted on X/Twitter via Buffer (post {post['id']}).")
     elif post["status"] == "error":
